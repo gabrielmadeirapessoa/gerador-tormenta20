@@ -30,6 +30,18 @@ function pickRaca() {
 	return pickOne(racas);
 }
 
+function pickGolem() {
+	return pickOne([" (Água)", " (Ar)", " (Fogo)", " (Terra)"]);
+}
+
+function pickQareen() {
+	return pickOne([" (Água)", " (Ar)", " (Fogo)", " (Luz)", " (Terra)", " (Trevas)"]);
+}
+
+function pickSuraggel() {
+	return pickOne(["Aggelus", "Sulfure"]);
+}
+
 function pickClasse() {
 	var classes = [
 		{key: "Ar", m: "Arcanista"},
@@ -47,7 +59,20 @@ function pickClasse() {
 		{key: "No", m: "Nobre"},
 		{key: "Pa", m: "Paladino", f: "Paladina"}
 	];
-	return pickOne(classes);
+	var classe = pickOne(classes);
+	if (classe.key === "Ar") {
+		classe = pickArcanista();
+	}
+	return classe;
+}
+
+function pickArcanista() {
+	var arcanistas = [
+		{key: "Ar", m: "Bruxo", f: "Bruxa"},
+		{key: "Ar", m: "Feiticeiro", f: "Feiticeira"},
+		{key: "Ar", m: "Mago", f: "Maga"}
+	];
+	return pickOne(arcanistas);
 }
 
 function pickOrigem(genero) {
@@ -175,6 +200,13 @@ function generate() {
 	var classe = pickClasse();
 	personagem.genero = genero;
 	personagem.raca = (genero == "F" && raca.f) ? raca.f : raca.m;
+	if (raca.key === "Gl") {
+		personagem.raca += pickGolem();
+	} else if (raca.key === "Qa") {
+		personagem.raca += pickQareen();
+	} else if (raca.key === "Su") {
+		personagem.raca = pickSuraggel();
+	}
 	personagem.classe = (genero === "F" && classe.f) ? classe.f : classe.m;
 	// Golens não possuem origem
 	personagem.origem = !["Gl"].includes(raca.key) ? pickOrigem(genero) : null;

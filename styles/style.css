@@ -1,6 +1,17 @@
 body {
-    background-image: url('../images/android.png');
-    background-position: center;
+    background-image: url('../images/mobile.png');
+    background-position: top;
+}
+
+.desktop {
+    display: none;
+    margin: 0;
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
 }
 
 .content {
@@ -23,10 +34,27 @@ button {
     background-color: lightgray;
 }
 
+footer {
+    color: white;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 @media only screen and (min-device-width: 500px) {
     body {
         background-image: url('../images/desktop.png');
         background-position: center;
+    }
+
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: inline;
     }
 
     .content {
