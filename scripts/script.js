@@ -117,23 +117,27 @@ function pickDeus(raca, classe) {
 		{key: "Wynna", r: ["El", "Gl", "Qa", "Si"], c: ["Ar", "Bd", "Cl"]}
 	];
 
+	// Apenas Allihanna, Megalokk e Oceano permitem Druidas
 	if (classe === "Dr") {
 		return pickOne(["Allihanna", "Megalokk", "Oceano"]);
 	}
 
+	// Apenas Azgher, Khalmyr, Lena, Lin-Wu, Marah, Tanna-Toh, Thyatis, Valkaria e "Bem" permitem Paladinos
 	if (classe === "Pa") {
-		return pickOne(["Azgher", "Khalmyr", "Lena", "Lin-Wu", "Marah", "Tanna-Toh", "Thyatis", "Valkaria"]);
+		return pickOne(["Azgher", "Khalmyr", "Lena", "Lin-Wu", "Marah", "Tanna-Toh", "Thyatis", "Valkaria", "Bem"]);
 	}
-
+	
 	var deus;
 	do {
 		deus = pickOne(deuses);
 	} while (!checkDeus(deus, raca, classe));
 
 	if (deus.key === "Ninguém") {
-		if (["Cl", "Pa"].includes(classe)) {
+		if (["Cl"].includes(classe)) {
+			// Clérigos "sem deus" na verdade são do Panteão
 			return "Panteão";
 		} else {
+			// Todas as outras classes sem deus podem ser "ateus" ou apenas "não devotos"
 			return null;
 		}
 	}
@@ -142,10 +146,12 @@ function pickDeus(raca, classe) {
 }
 
 function checkDeus(deus, raca, classe) {
+	// Valida se a raça do personagem pode ser devota do deus
 	if (deus.r && !deus.r.includes(raca)) {
 		return false;
 	}
 
+	// Valida se a classe do personagem pode ser devota do deus
 	if (deus.c && !deus.c.includes(classe)) {
 		return false;
 	}
@@ -158,23 +164,25 @@ function generate() {
 	var raca = pickRaca();
 	var genero = pickGenero();
 	if (["Da", "Me"].includes(raca.key)) {
+		// Dahllan e Medusas podem ser apenas mulheres
 		genero = "F"
 	} else if (["Mi"].includes(raca.key)) {
+		// Minotauros podem ser apenas homens
 		genero = "M";
 	}
 	var classe = pickClasse();
 	personagem.genero = genero;
 	personagem.raca = (genero == "F" && raca.f) ? raca.f : raca.m;
 	personagem.classe = (genero === "F" && classe.f) ? classe.f : classe.m;
+	// Golens não possuem origem
 	personagem.origem = !["Gl"].includes(raca.key) ? pickOrigem(genero) : null;
 	personagem.deus = pickDeus(raca.key, classe.key);
 	var extras = (genero === "M") ? ["um", "devoto"] : ["uma", "devota"];
-	["Panteão", "Oceano"].includes(personagem.deus) ? extras.push("do") : extras.push("de");
+	["Panteão", "Oceano", "Bem"].includes(personagem.deus) ? extras.push("do") : extras.push("de");
 
 	var retorno = "Você é " + extras[0] + " " + personagem.raca + " " + personagem.classe + " ";
 	if (personagem.origem) {
 		retorno += personagem.origem + " ";
-		
 	}
 
 	if (personagem.deus) {
