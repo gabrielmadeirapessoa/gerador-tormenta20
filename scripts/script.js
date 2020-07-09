@@ -103,9 +103,9 @@ function pickDeus(raca, classe) {
 		{key: "Kallyadranoch", c: ["Ar", "Cl", "Cv", "Ge", "Lu", "No"]},
 		{key: "Khalmyr", r: ["An"], c: ["Cl", "Cv", "Ge", "No", "Pa"]},
 		{key: "Lena", r: ["Da", "Qa"], c: ["Cl", "No", "Pa"]},
-		{key: "Lin-Wu", r: ["An"], r: ["Cl", "Cv", "Ge", "No", "Pa"]},
+		{key: "Lin-Wu", r: ["An"], c: ["Cl", "Cv", "Ge", "No", "Pa"]},
 		{key: "Marah", r: ["El", "Hy", "Qa"], c: ["Bd", "Cl", "No", "Pa"]},
-		{key: "Megalokk", r: ["Gb", "Me", "Mi", "Tr"], r: ["Ba", "Ca", "Cl", "Dr", "Lu"]},
+		{key: "Megalokk", r: ["Gb", "Me", "Mi", "Tr"], c: ["Ba", "Ca", "Cl", "Dr", "Lu"]},
 		{key: "Nimb", r: ["Gb", "Qa"], c: ["Ba", "Bd", "Bu", "Cl", "In", "La"]},
 		{key: "Oceano", r: ["Da", "Hy", "Mi", "Ts"], c: ["Ba", "Bu", "Ca", "Cl", "Dr"]},
 		{key: "Sszzaas", r: ["Me"], c: ["Ar", "Bd", "Bu", "Cl", "In", "La", "No"]},
@@ -146,17 +146,19 @@ function pickDeus(raca, classe) {
 }
 
 function checkDeus(deus, raca, classe) {
-	// Valida se a raça do personagem pode ser devota do deus
-	if (deus.r && !deus.r.includes(raca)) {
-		return false;
+	if (deus.c && deus.r) {
+		// Se deus possui restrição para raça e classe, apenas uma das duas precisa ser devota
+		return deus.c.includes(classe) || deus.r.includes(raca);
+	} else if (deus.c) {
+		// Se deus possui apenas restrição de classe, a classe do personagem tem que ser devota
+		return deus.c.includes(classe);
+	} else if (deus.r) {
+		// Se deus possui apenas restrição de raça, a raça do personagem tem que ser devota
+		return deus.r.includes(raca);
+	} else {
+		// Deus não possui nehuma restrição de classe ou de raça
+		return true;
 	}
-
-	// Valida se a classe do personagem pode ser devota do deus
-	if (deus.c && !deus.c.includes(classe)) {
-		return false;
-	}
-
-	return true;
 }
 
 function generate() {
