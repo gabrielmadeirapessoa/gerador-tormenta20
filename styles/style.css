@@ -1,0 +1,39 @@
+body {
+    background-image: url('../images/android.png');
+    background-position: center;
+}
+
+.content {
+    text-align: center;
+    font-size: 5vw;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    display: table;
+    background-color: black;
+    color: #DA412F;
+}
+
+button {
+    font-size: 4vw;
+    background-color: lightgray;
+}
+
+@media only screen and (min-device-width: 500px) {
+    body {
+        background-image: url('../images/desktop.png');
+        background-position: center;
+    }
+
+    .content {
+        font-size: 3vw;
+    }
+
+    button {
+        font-size: 2vw;
+    }
+}
