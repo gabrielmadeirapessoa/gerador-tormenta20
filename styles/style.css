@@ -3,6 +3,10 @@ body {
     background-position: top;
 }
 
+a:visited {
+    color: white;
+}
+
 .desktop {
     display: none;
     margin: 0;
@@ -41,6 +45,7 @@ footer {
     bottom: 0;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: black;
 }
 
 @media only screen and (min-device-width: 500px) {
