@@ -1,5 +1,5 @@
 <html>
-    <head>
+    <head profile="http://www.w3.org/2005/10/profile">
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172334883-1"></script>
         <script>
@@ -12,24 +12,32 @@
         <title>Gerador de Atormentados - Tormenta20</title>
         <link rel="stylesheet" href="./styles/style.css">
         <script type="text/javascript" src="./scripts/script-2.js"></script>
+        <link rel="icon" type="image/png" href="./images/olho.jpg">
     </head>
-    <body onload="generate()">
+    <body onload="generate();rollAtributos();">
         <header>
             <img class="desktop" src="./images/banner-desktop.png" />
         </header>
         <div class="content">
             <span id="personagem"></span>
-            <p><button onclick="generate()">Gerar novo Atormentado!</button></p>
+            <br/>
+            <input id="atributos-array" type="hidden" value="" />
+            <span id="atributos"></span>
+            <br/>
+            <input class="check-devoto" type="checkbox" id="devoto" checked />
+            <label class="label-devoto" for="devoto">Devoto?</label>
+            <button id="generate-char" onclick="generate();">Gerar novo Atormentado!</button><button id="roll-atrs" onclick="rollAtributos();">Rolar Atributos!</button><button id="roll-low" onclick="rollMenor();">Rolar Menor Atributo!</button>
         </div>
         <footer>
             Tormenta20 é um produto da Jambô Editora e seus respectivos criadores, todos os direitos reservados.
             <br/>
             Jambô Editora - <a href="https://jamboeditora.com.br/">https://jamboeditora.com.br/</a>
             <br/>
-            Arte por Dan Ramos.
+            Tormenta - <a href="https://tormentarpg.com.br/">https://tormentarpg.com.br/</a>
             <br/>
-            Versão 0.9.2 - Este produto é um projeto de fã - <a href="https://github.com/gabrielmadeirapessoa/gerador-tormenta20">Github</a>
+            Arte por Dan Ramos - <a href="https://www.artstation.com/danramos">https://www.artstation.com/danramos</a>
+            <br/>
+            Versão 0.9.3 - Este é um projeto de fã e não possui fins lucrativos - <a href="https://github.com/gabrielmadeirapessoa/gerador-tormenta20">Github</a>
         </footer>
     </body>
-    <!--https://github.com/gabrielmadeirapessoa/gerador-tormenta20-->
 </html>

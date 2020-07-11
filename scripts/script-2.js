@@ -117,9 +117,8 @@ function pickOrigem(genero) {
 	return (genero === "F" && origem.f) ? origem.f : origem.m;
 }
 
-function pickDeus() {
+function pickDeus(devoto) {
 	var deuses = [
-		{key: "Ninguém"},
 		{key: "Aharadak"},
 		{key: "Allihanna", r: ["Da", "El"], c: ["Ba", "Ca", "Cl", "Dr"]},
 		{key: "Arsenal", c: ["Ba", "Cl", "Cv", "Ge", "Lu"]},
@@ -142,7 +141,11 @@ function pickDeus() {
 		{key: "Wynna", r: ["El", "Gl", "Qa", "Si"], c: ["Ar", "Bd", "Cl"]}
 	];
 
-	return pickOne(deuses);
+	if (devoto) {
+		return pickOne(deuses);
+	} else {
+		return {key: "Ninguém"};
+	}
 }
 
 function checkDeus(deus, raca, classe) {
@@ -173,9 +176,93 @@ function checkDeus(deus, raca, classe) {
 	}
 }
 
+function rollAtributos() {
+	document.getElementById("roll-atrs").classList.add("hide");
+	document.getElementById("roll-low").classList.add("hide");
+	var atributos = [];
+	for (let i = 0; i < 6; i++) {
+		atributos.push(rollAtributo());
+	}
+	atributos.sort((a, b) => a - b);
+	var modificadores = checkAtributos(atributos);
+	document.getElementById("atributos-array").value = JSON.stringify(atributos);
+	document.getElementById("atributos").innerHTML = "Seus atributos são " + atributos.join(", ") + " (Mod: " + modificadores + ")";
+	if (modificadores < 6) {
+		var classList = document.getElementById("roll-low").classList;
+		if (classList.contains("hide")) {
+			classList.remove("hide");
+		}
+		classList = document.getElementById("roll-atrs").classList;
+		if (!classList.contains("hide")) {
+			classList.add("hide");
+		}
+	} else {
+		var classList = document.getElementById("roll-low").classList;
+		if (!classList.contains("hide")) {
+			classList.add("hide");
+		}
+		classList = document.getElementById("roll-atrs").classList;
+		if (classList.contains("hide")) {
+			classList.remove("hide");
+		}
+	}
+}
+
+function rollMenor() {
+	document.getElementById("roll-atrs").classList.add("hide");
+	document.getElementById("roll-low").classList.add("hide");
+	var atributos = JSON.parse(document.getElementById("atributos-array").value);
+	var modificadores = checkAtributos(atributos);
+	if (modificadores < 6) {
+		atributos.shift();
+		atributos.push(rollAtributo());
+		atributos.sort((a, b) => a - b);
+		modificadores = checkAtributos(atributos);
+		document.getElementById("atributos-array").value = JSON.stringify(atributos);
+		document.getElementById("atributos").innerHTML = "Seus atributos são " + atributos.join(", ") + " (Total Mod: " + modificadores + ")";
+	}
+	if (modificadores < 6) {
+		var classList = document.getElementById("roll-low").classList;
+		if (classList.contains("hide")) {
+			classList.remove("hide");
+		}
+		classList = document.getElementById("roll-atrs").classList;
+		if (!classList.contains("hide")) {
+			classList.add("hide");
+		}
+	} else {
+		var classList = document.getElementById("roll-low").classList;
+		if (!classList.contains("hide")) {
+			classList.add("hide");
+		}
+		classList = document.getElementById("roll-atrs").classList;
+		if (classList.contains("hide")) {
+			classList.remove("hide");
+		}
+	}
+}
+
+function rollAtributo() {
+	var rolagens = [];
+	for (let j = 0; j < 4; j++) {
+		rolagens.push(Math.floor(Math.random() * 6) + 1);
+	}
+	rolagens.sort((a, b) => a - b).shift();
+	return(rolagens.reduce((a, b) => a + b));
+}
+
+function checkAtributos(atributos) {
+	var modificadores = 0;
+	for (const atributo of atributos) {
+		modificadores += Math.floor((atributo - 10) / 2);
+	}
+	return modificadores;
+}
+
 function generate() {
+	var devoto = document.getElementById("devoto").checked;
 	var personagem = {};
-	var deus = pickDeus();
+	var deus = pickDeus(devoto);
 	var raca = pickRaca();
 	var classe = pickClasse();
 
@@ -225,5 +312,5 @@ function generate() {
 	}
 
 	document.getElementById("personagem").innerHTML = retorno;
-	
+
 }
