@@ -2,12 +2,19 @@ function pickOne(lista) {
 	return lista[Math.floor(Math.random() * lista.length)];
 }
 
-function pickGenero() {
+function pickGenero(raca) {
+	if (["Da", "Me"].includes(raca)) {
+		// Dahllan e Medusas podem ser apenas mulheres
+		return "F"
+	} else if (["Mi"].includes(raca)) {
+		// Minotauros podem ser apenas homens
+		return "M";
+	}
 	var generos = ["F", "M"];
 	return pickOne(generos);
 }
 
-function pickRaca() {
+function pickRaca(maisHumanos, ultimaRaca) {
 	var racas = [
 		{key: "Hu", m: "Humano", f: "Humana"},
 		{key: "An", m: "Anão", f: "Anã"},
@@ -27,19 +34,58 @@ function pickRaca() {
 		{key: "Su", m: "Suraggel"},
 		{key: "Tr", m: "Trog"}
 	];
-	return pickOne(racas);
+	var raca;
+	if (!maisHumanos) {
+		raca = pickOne(racas);
+	} else {
+		var humano = racas.shift();
+		if (ultimaRaca === humano.key) {
+			raca = pickOne(racas);
+		} else {
+			raca = humano;
+		}
+		racas.unshift(humano);
+	}
+
+	if (raca.key === "Gl") {
+		raca = pickGolem();
+	} else if (raca.key === "Qa") {
+		raca = pickQareen();
+	} else if (raca.key === "Su") {
+		raca = pickSuraggel();
+	}
+	
+	return raca;
 }
 
 function pickGolem() {
-	return pickOne([" (Água)", " (Ar)", " (Fogo)", " (Terra)"]);
+	var golens = [
+		{key: "Gl", m: "Golem (Água)"},
+		{key: "Gl", m: "Golem (Ar)"},
+		{key: "Gl", m: "Golem (Fogo)"},
+		{key: "Gl", m: "Golem (Terra)"}
+	];
+	return pickOne(golens);
 }
 
 function pickQareen() {
-	return pickOne([" (Água)", " (Ar)", " (Fogo)", " (Luz)", " (Terra)", " (Trevas)"]);
+	var qareens = [
+		{key: "Qa", m: "Qareen (Água)"},
+		{key: "Qa", m: "Qareen (Ar)"},
+		{key: "Qa", m: "Qareen (Fogo)"},
+		{key: "Qa", m: "Qareen (Luz)"},
+		{key: "Qa", m: "Qareen (Terra)"},
+		{key: "Qa", m: "Qareen (Trevas)"}
+	];
+	return pickOne(qareens);
 }
 
 function pickSuraggel() {
-	return pickOne(["Aggelus", "Sulfure"]);
+	var suraggel = [
+		{key: "Su", m: "Aggelus"},
+		{key: "Su", m: "Sulfure"}
+	];
+	return pickOne(suraggel);
 }
 
 function pickClasse() {
@@ -261,33 +307,22 @@ function checkAtributos(atributos) {
 
 function generate() {
 	var devoto = document.getElementById("devoto").checked;
+	var maisHumanos = document.getElementById("humano").checked;
+	var ultimaRaca = document.getElementById("raca-key").value;
 	var personagem = {};
 	var deus = pickDeus(devoto);
-	var raca = pickRaca();
+	var raca = pickRaca(maisHumanos, ultimaRaca);
 	var classe = pickClasse();
 
 	while (!checkDeus(deus, raca.key, classe.key)) {
-		raca = pickRaca();
+		raca = pickRaca(maisHumanos, ultimaRaca);
 		classe = pickClasse();
 	}
+	document.getElementById("raca-key").value = raca.key;
 
-	var genero = pickGenero();
-	if (["Da", "Me"].includes(raca.key)) {
-		// Dahllan e Medusas podem ser apenas mulheres
-		genero = "F"
-	} else if (["Mi"].includes(raca.key)) {
-		// Minotauros podem ser apenas homens
-		genero = "M";
-	}
+	var genero = pickGenero(raca.key);
 	personagem.genero = genero;
 	personagem.raca = (genero == "F" && raca.f) ? raca.f : raca.m;
-	if (raca.key === "Gl") {
-		personagem.raca += pickGolem();
-	} else if (raca.key === "Qa") {
-		personagem.raca += pickQareen();
-	} else if (raca.key === "Su") {
-		personagem.raca = pickSuraggel();
-	}
 	personagem.classe = (genero === "F" && classe.f) ? classe.f : classe.m;
 	// Golens não possuem origem
 	personagem.origem = !["Gl"].includes(raca.key) ? pickOrigem(genero) : null;
@@ -302,7 +337,7 @@ function generate() {
 	var extras = (genero === "M") ? ["um", "devoto"] : ["uma", "devota"];
 	["Panteão", "Oceano", "Bem"].includes(personagem.deus) ? extras.push("do") : extras.push("de");
 
-	var retorno = "Você é " + extras[0] + " " + personagem.raca + " " + personagem.classe + " ";
+	var retorno = extras[0] + " " + personagem.raca + " " + personagem.classe + " ";
 	if (personagem.origem) {
 		retorno += personagem.origem + " ";
 	}
@@ -311,6 +346,11 @@ function generate() {
 		retorno += extras[1] + " " + extras[2] + " " + personagem.deus;
 	}
 
-	document.getElementById("personagem").innerHTML = retorno;
+	var shareText = encodeURI("Eu sou " + retorno + "!\nDescubra quem você é com o Gerador de Atormentados: ");
+	var url = "https://gabrielmadeirapessoa.github.io/gerador-tormenta20/";
+	document.getElementById('tweet-button').href = "https://twitter.com/intent/tweet?hashtags=tormenta20&url=" + url + "&text=" + shareText;
+	document.getElementById('fb-button').href = "https://www.facebook.com/sharer/sharer.php?u=" + url + "&quote=" + shareText;
+
+	document.getElementById("personagem").innerHTML = "Você é " + retorno;
 
 }

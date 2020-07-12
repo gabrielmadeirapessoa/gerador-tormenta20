@@ -1,6 +1,15 @@
 body {
-    background-image: url('../images/mobile.png');
-    background-position: top;
+    background-image: url('../images/desktop.png');
+    background-position: center;
+}
+
+.desktop {
+    display: inline;
+    margin: 0;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -11,84 +20,173 @@ a:link, a:visited, a:hover, a:active {
     display: none;
 }
 
-.desktop {
-    display: none;
-    margin: 0;
-    position: absolute;
-    top: 13%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    height: auto;
-}
-
-.content {
-    text-align: center;
-    font-size: 5vw;
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: auto;
-    height: auto;
-    display: table;
-    background-color: black;
-    color: #DA412F;
-}
-
-.check-devoto {
-    width: 30px;
-    height: 30px;
-}
-
-.label-devoto {
-    font-size: 5vw;
+.check-generate {
+    width: 25px;
+    height: 25px;
 }
 
 button {
-    font-size: 4vw;
-    background-color: lightgray;
+    font-size: 2vw;
 }
 
-footer {
-    color: white;
-    text-align: center;
-    position: absolute;
-    bottom: 0;
+.content {
+    font-size: 2.5vw;
+    position: fixed;
+    top: 50%;
     left: 50%;
+    width: 100%;
     transform: translate(-50%, -50%);
     background-color: black;
+    color: #DA412F;
+    text-align: center;
 }
 
-@media only screen and (min-device-width: 500px) {
-    body {
-        background-image: url('../images/desktop.png');
-        background-position: center;
-    }
+.share-area {
+  font-size: initial;
+}
 
-    .mobile {
-        display: none;
+.resp-sharing-button__link,
+.resp-sharing-button__icon {
+  display: inline-block;
+}
+
+.resp-sharing-button__link {
+  text-decoration: none;
+  color: #fff;
+  margin: 0.5em;
+}
+
+.resp-sharing-button {
+  border-radius: 5px;
+  transition: 25ms ease-out;
+  padding: 0.5em 0.75em;
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+
+.resp-sharing-button__icon svg {
+  width: 1em;
+  height: 1em;
+  margin-right: 0.4em;
+}
+
+.resp-sharing-button--small svg {
+  margin: 0;
+  vertical-align: middle;
+}
+
+/* Non solid icons get a stroke */
+.resp-sharing-button__icon {
+  stroke: #fff;
+  fill: none;
+}
+
+/* Solid icons get a fill */
+.resp-sharing-button__icon--solid,
+.resp-sharing-button__icon--solidcircle {
+  fill: #fff;
+  stroke: none;
+}
+
+.resp-sharing-button--twitter {
+  background-color: #55acee;
+}
+
+.resp-sharing-button--twitter:hover {
+  background-color: #2795e9;
+}
+
+.resp-sharing-button--facebook {
+  background-color: #3b5998;
+}
+
+.resp-sharing-button--facebook:hover {
+  background-color: #2d4373;
+}
+
+.resp-sharing-button--facebook {
+  background-color: #3b5998;
+  border-color: #3b5998;
+}
+
+.resp-sharing-button--facebook:hover,
+.resp-sharing-button--facebook:active {
+  background-color: #2d4373;
+  border-color: #2d4373;
+}
+
+.resp-sharing-button--twitter {
+  background-color: #55acee;
+  border-color: #55acee;
+}
+
+.resp-sharing-button--twitter:hover,
+.resp-sharing-button--twitter:active {
+  background-color: #2795e9;
+  border-color: #2795e9;
+}
+
+/* 
+
+.share-area > div {
+    padding-top: 1px;
+}
+
+#fb-share-button {
+    background: #3b5998;
+    border-radius: 3px;
+    font-weight: 600;
+    padding: 5px 8px;
+    display: inline-block;
+    position: static;
+}
+
+#fb-share-button:hover {
+    cursor: pointer;
+    background: #213A6F
+}
+
+#fb-share-button svg {
+    width: 18px;
+    fill: white;
+    vertical-align: middle;
+    border-radius: 2px
+}
+
+#fb-share-button span {
+    vertical-align: middle;
+    color: white;
+    font-family: Helvetica;
+    padding: 0 3px
+} */
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+@media only screen and (max-device-width: 500px) {
+    
+    body {
+        background-image: url('../images/mobile.png');
+        background-position: top;
     }
 
     .desktop {
-        display: inline;
+        width: 90%;
     }
 
     .content {
-        font-size: 3vw;
+        font-size: 4vw;
     }
 
     button {
-        font-size: 2vw;
+        font-size: 3.5vw;
     }
-
-    .check-devoto {
-        width: 20px;
-        height: 20px;
-    }
-
-    .label-devoto {
-        font-size: 2.5vw;
-    }
+    
 }
