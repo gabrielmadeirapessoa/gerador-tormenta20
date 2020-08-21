@@ -190,7 +190,7 @@ function pickDeus(devoto) {
     if (devoto) {
         return pickOne(deuses);
     } else {
-        return { key: "Ninguém" };
+        return { key: "Ninguém", r: [], c: [] };
     }
 }
 
