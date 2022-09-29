@@ -230,7 +230,7 @@ function rollAtributos() {
         atributos.push(rollAtributo());
     }
     atributos.sort((a, b) => a - b);
-    var modificadores = checkAtributos(atributos);
+    var modificadores = atributos.reduce((a, b) => a + b, 0);
     document.getElementById("atributos-array").value = JSON.stringify(atributos);
     document.getElementById("atributos").innerHTML = "Seus atributos são " + atributos.join(", ") + " (Mod: " + modificadores + ")";
     if (modificadores < 6) {
@@ -258,12 +258,12 @@ function rollMenor() {
     document.getElementById("roll-atrs").classList.add("hide");
     document.getElementById("roll-low").classList.add("hide");
     var atributos = JSON.parse(document.getElementById("atributos-array").value);
-    var modificadores = checkAtributos(atributos);
+    var modificadores = atributos.reduce((a, b) => a + b, 0);
     if (modificadores < 6) {
         atributos.shift();
         atributos.push(rollAtributo());
         atributos.sort((a, b) => a - b);
-        modificadores = checkAtributos(atributos);
+        modificadores = atributos.reduce((a, b) => a + b, 0);
         document.getElementById("atributos-array").value = JSON.stringify(atributos);
         document.getElementById("atributos").innerHTML = "Seus atributos são " + atributos.join(", ") + " (Total Mod: " + modificadores + ")";
     }
@@ -294,7 +294,9 @@ function rollAtributo() {
         rolagens.push(Math.floor(Math.random() * 6) + 1);
     }
     rolagens.sort((a, b) => a - b).shift();
-    return (rolagens.reduce((a, b) => a + b));
+    var sum = (rolagens.reduce((a, b) => a + b));
+    var attr = Math.floor((sum - 10) / 2);
+    return attr >= -1 ? attr : -2;
 }
 
 function checkAtributos(atributos) {
