@@ -232,7 +232,7 @@ function rollAtributos() {
     atributos.sort((a, b) => a - b);
     var modificadores = atributos.reduce((a, b) => a + b, 0);
     document.getElementById("atributos-array").value = JSON.stringify(atributos);
-    document.getElementById("atributos").innerHTML = "Seus atributos são " + atributos.join(", ") + " (Mod: " + modificadores + ")";
+    document.getElementById("atributos").innerHTML = "Seus atributos são " + atributos.join(", ") + " (Total: " + modificadores + ")";
     if (modificadores < 6) {
         var classList = document.getElementById("roll-low").classList;
         if (classList.contains("hide")) {
